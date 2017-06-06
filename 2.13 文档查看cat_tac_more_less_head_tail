@@ -1,0 +1,153 @@
+---
+title: 2.13 文档查看cat_tac_more_less_head_tail
+---
+
+[toc]
+
+## cat
+> 从上往下查看文件内容
+
+```
+[root@allinlinux-01 tmp]# cat /etc/passwd
+root:x:0:0:root:/root:/bin/bash
+bin:x:1:1:bin:/bin:/sbin/nologin
+daemon:x:2:2:daemon:/sbin:/sbin/nologin
+adm:x:3:4:adm:/var/adm:/sbin/nologin
+lp:x:4:7:lp:/var/spool/lpd:/sbin/nologin
+sync:x:5:0:sync:/sbin:/bin/sync
+shutdown:x:6:0:shutdown:/sbin:/sbin/shutdown
+halt:x:7:0:halt:/sbin:/sbin/halt
+mail:x:8:12:mail:/var/spool/mail:/sbin/nologin
+operator:x:11:0:operator:/root:/sbin/nologin
+games:x:12:100:games:/usr/games:/sbin/nologin
+ftp:x:14:50:FTP User:/var/ftp:/sbin/nologin
+nobody:x:99:99:Nobody:/:/sbin/nologin
+systemd-bus-proxy:x:999:997:systemd Bus Proxy:/:/sbin/nologin
+systemd-network:x:192:192:systemd Network Management:/:/sbin/nologin
+dbus:x:81:81:System message bus:/:/sbin/nologin
+polkitd:x:998:996:User for polkitd:/:/sbin/nologin
+tss:x:59:59:Account used by the trousers package to sandbox the tcsd daemon:/dev/null:/sbin/nologin
+postfix:x:89:89::/var/spool/postfix:/sbin/nologin
+sshd:x:74:74:Privilege-separated SSH:/var/empty/sshd:/sbin/nologin
+chrony:x:997:995::/var/lib/chrony:/sbin/nologin
+allin1:x:1000:1000::/home/allin1:/bin/bash
+
+```
+
+## tac
+> 从下往上查看文件的内容
+
+```
+[root@allinlinux-01 tmp]# tac /etc/passwd
+allin1:x:1000:1000::/home/allin1:/bin/bash
+chrony:x:997:995::/var/lib/chrony:/sbin/nologin
+sshd:x:74:74:Privilege-separated SSH:/var/empty/sshd:/sbin/nologin
+postfix:x:89:89::/var/spool/postfix:/sbin/nologin
+tss:x:59:59:Account used by the trousers package to sandbox the tcsd daemon:/dev/null:/sbin/nologin
+polkitd:x:998:996:User for polkitd:/:/sbin/nologin
+dbus:x:81:81:System message bus:/:/sbin/nologin
+systemd-network:x:192:192:systemd Network Management:/:/sbin/nologin
+systemd-bus-proxy:x:999:997:systemd Bus Proxy:/:/sbin/nologin
+nobody:x:99:99:Nobody:/:/sbin/nologin
+ftp:x:14:50:FTP User:/var/ftp:/sbin/nologin
+games:x:12:100:games:/usr/games:/sbin/nologin
+operator:x:11:0:operator:/root:/sbin/nologin
+mail:x:8:12:mail:/var/spool/mail:/sbin/nologin
+halt:x:7:0:halt:/sbin:/sbin/halt
+shutdown:x:6:0:shutdown:/sbin:/sbin/shutdown
+sync:x:5:0:sync:/sbin:/bin/sync
+lp:x:4:7:lp:/var/spool/lpd:/sbin/nologin
+adm:x:3:4:adm:/var/adm:/sbin/nologin
+daemon:x:2:2:daemon:/sbin:/sbin/nologin
+bin:x:1:1:bin:/bin:/sbin/nologin
+root:x:0:0:root:/root:/bin/bash
+
+```
+
+## more
+> 如果文件内容比较多,会一屏一屏的显示文件的内容.
+> 空格 和 ctrl + f  向后翻页    ctrl + b 向前翻页   当看到最后,会自动退出
+
+## less
+> 加强版的more , 可以使用more的全部功能. 但是看到最后,不会自动退出,需要看一个q键.
+
+> 还支持上下方向键一行行翻页
+
+> 还可以搜索: 
+> 1. 输入 / 要搜索的字符,可从前往后搜索, 按`n`键,往后搜索,按`shift + n` 往前搜索
+> 2. 输入? 要搜索的字符,可从后往前搜索,按`n`键,往前搜索,,按`shift + n`往后搜索 
+
+> 还支持 按`g`键,快速定位到文件首行, 按`shift + g`键,快速定位到文件末行
+
+## head
+> head 文件名 查看文件的头十行  也可以指定查看的行数  -n 2  就是头两行
+
+```
+[root@allinlinux-01 tmp]# head /etc/passwd
+root:x:0:0:root:/root:/bin/bash
+bin:x:1:1:bin:/bin:/sbin/nologin
+daemon:x:2:2:daemon:/sbin:/sbin/nologin
+adm:x:3:4:adm:/var/adm:/sbin/nologin
+lp:x:4:7:lp:/var/spool/lpd:/sbin/nologin
+sync:x:5:0:sync:/sbin:/bin/sync
+shutdown:x:6:0:shutdown:/sbin:/sbin/shutdown
+halt:x:7:0:halt:/sbin:/sbin/halt
+mail:x:8:12:mail:/var/spool/mail:/sbin/nologin
+operator:x:11:0:operator:/root:/sbin/nologin
+
+```
+
+```
+[root@allinlinux-01 tmp]# head -n 2 /etc/passwd
+root:x:0:0:root:/root:/bin/bash
+bin:x:1:1:bin:/bin:/sbin/nologin
+
+```
+
+
+## tail
+> tail 文件名 查看文件的最后十行 也可以指定查看的行数 -n  2 就是最后两行
+
+```
+[root@allinlinux-01 tmp]# tail /etc/passwd
+nobody:x:99:99:Nobody:/:/sbin/nologin
+systemd-bus-proxy:x:999:997:systemd Bus Proxy:/:/sbin/nologin
+systemd-network:x:192:192:systemd Network Management:/:/sbin/nologin
+dbus:x:81:81:System message bus:/:/sbin/nologin
+polkitd:x:998:996:User for polkitd:/:/sbin/nologin
+tss:x:59:59:Account used by the trousers package to sandbox the tcsd daemon:/dev/null:/sbin/nologin
+postfix:x:89:89::/var/spool/postfix:/sbin/nologin
+sshd:x:74:74:Privilege-separated SSH:/var/empty/sshd:/sbin/nologin
+chrony:x:997:995::/var/lib/chrony:/sbin/nologin
+allin1:x:1000:1000::/home/allin1:/bin/bash
+
+```
+
+```
+[root@allinlinux-01 tmp]# tail -n 2 /etc/passwd
+chrony:x:997:995::/var/lib/chrony:/sbin/nologin
+allin1:x:1000:1000::/home/allin1:/bin/bash
+
+```
+
+> 还常常用于查看动态文件  使用选项 -f 
+
+
+### 拓展
+
+`wc` 查看文件的行数
+
+```
+[root@allinlinux-01 tmp]# wc /etc/passwd
+  22   42 1051 /etc/passwd
+```
+
+`>>` 追加符号
+> 格式: cat/head/tail/ 文件名 >> 文件名
+> 把前面的文件内容追加到后面的文件内容的末尾
+
+`cat /etc/passwd >> /root/xxx`  所有内容
+`head etc/passwd >> /root/xxx` 前十行
+`head -n 2 etc/passwd >> /root/xxx`前两行    以此类推,tail也一样.
+
+
