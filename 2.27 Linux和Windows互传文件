@@ -1,0 +1,46 @@
+---
+title: 2.27 Linux和Windows互传文件
+---
+
+[toc]
+
+## 互传文件
+
+> 后期可以使用ftp和samba服务来实现互传文件的功能.
+
+> 现在使用一个软件来实现 , lrzsz , 需要yum下载安装
+
+> 前提 : 需要使用xshell , 不支持putty
+
+
+1. 传文件到Windows
+```
+[root@allinlinux-01 tmp]# sz 1.txt.bak 
+[root@allinlinux-01 tmp]# 
+```
+
+![](http://oqjg6c4c1.bkt.clouddn.com/201706092338_810.png)
+
+2. 传文件到Linux
+
+```
+[root@allinlinux-01 tmp]# rz 
+
+[root@allinlinux-01 tmp]# ls
+1.txt.bak   222        4.txt.bak   folder.ini
+111         234        666         systemd-private-35d1a2cdba024a7481a3e730a360d5e7-vmtoolsd.service-xmhedq
+1_soft.txt  3.txt.bak  allin2      tmp
+2.txt       345        allinlinux  user1.txt.bak
+
+```
+
+
+![](http://oqjg6c4c1.bkt.clouddn.com/201706092341_840.png)
+
+![](http://oqjg6c4c1.bkt.clouddn.com/201706092341_61.png)
+
+
+
+
+
+
