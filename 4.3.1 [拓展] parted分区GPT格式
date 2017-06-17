@@ -1,0 +1,68 @@
+---
+title: 4.3.1 [拓展] parted分区GPT格式
+---
+
+我们在课上讲的fdisk分区工具，它的分区格式为MBR，特点是，最多分4个主分区，磁盘大小不能超过2T。而GPT分区格式，突破了这些限制，它没有主分区、扩展分区、逻辑分区之分，在一块磁盘上最多可以分128个分区出来，支持大于2T的分区，最大卷可达18EB。 相信，随着存储级别的升级，将来的分区格式逐渐会淘汰MBR，而GPT成为主流。
+
+parted 工具常用功能：
+
+当在命令行输入parted后，进入parted命令的交互模式。输入help会显示帮助信息。下面就简单介绍一下常用的功能
+
+1、check 简单检查文件系统。建议用其他命令检查文件系统，比如fsck
+
+2、help 显示帮助信息
+
+3、mklabel 创建分区表， 即是使用msdos（MBR）还是使用gpt，或者是其他方式分区表
+
+4、 mkfs 创建文件系统。该命令不支持ext3 格式，因此建议不使用，最好是用parted分好区，然后退出parted交互模式，用其他命令进行分区，比如：mkfs.ext3
+
+5、mkpart 创建新分区。
+格式：mkpart PART-TYPE  [FS-TYPE]  START  END
+PART-TYPE 类型主要有primary（主分区）, extended（扩展分区）, logical（逻辑区）. 扩展分区和逻辑分区只对msdos。
+fs-type   文件系统类型，主要有fs32，NTFS，ext2，ext3等
+start end 分区的起始和结束位置。
+
+6、mkpartfs 建立分区及其文件系统。目前还不支持ext3文件系统，因此不建议使用该功能。最后是分好区后，退出parted，然后用其他命令建立文件系统。
+
+7、print 输出分区信息。该功能有3个选项，
+free 显示该盘的所有信息，并显示磁盘剩余空间
+number 显示指定的分区的信息
+all 显示所有磁盘信息
+
+8、resize 调整指定的分区的大小。目前对ext3格式支持不是很好，所以不建议使用该功能。
+
+9、rescue 恢复不小心删除的分区。如果不小心用parted的rm命令删除了一个分区，那么可以通过rescue功能进行恢复。恢复时需要给出分区的起始和结束的位置。然后parted就会在给定的范围内去寻找，并提示恢复分区。
+
+10、rm 删除分区。命令格式 rm  number 。如：rm 3 就是将编号为3的分区删除
+
+11、select 选择设备。当输入parted命令后直接回车进入交互模式是，如果有多块硬盘，需要用select 选择要操作的硬盘。如：select /dev/sdb
+
+12、set 设置标记。更改指定分区编号的标志。标志通常有如下几种：boot  hidden   raid   lvm 等。
+boot 为引导分区，hidden 为隐藏分区，raid 软raid，lvm 为逻辑分区。
+如：set 3  boot  on   设置分区号3 为启动分区
+注：以上内容为parted常用的功能，由于该工具目前对ext3支持得不是很好，因此有些功能无法应用，比如move（移动分区）和resize等。
+
+parted分区功能事例。
+
+1、用命令模式 为/dev/sdb创建gpt类型文件分区表,并分500G分区。然后为该分区创建ext3文件系统。并将该分区挂载在/test文件夹下。
+\#  parted  /dev/sdb  mklabel     —创建分区表
+\#  parted  /dev/sdb  mkpart  ext3  0  500000    —创建500G分区/dev/sdb1
+\# mkfs.ext3  /dev/sdb1      —-将分区/dev/sdb1格式化成ext3格式文件系统
+\# mount  /dev/sdb1 /test   —将/dev/sdb1 挂载在/test下
+如果让系统自动挂载/dev/sdb1 需手工编辑/etc/fstab文件。并在文件末尾添加如下内容：
+/dev/sdb1             /test                ext3    defaults        0 0
+
+2、创建大小为4G的交互分区。由于已经创建了500G的/dev/sdb1 ,因此再创建的分区为/dev/sdb2
+\# parted /dev/sdb mkpart swap 500000 504000 —创建4G分区/dev/sdb2
+\# mkswap  /dev/sdb2   —-将/dev/sdb2创建为交换分区
+\# swapon /dev/sdb2   —-激活/dev/sdb2
+如果让系统自动挂载/dev/sdb2这个交换分区，需手工编辑/etc/fstab文件。并在文件末尾添加如下内容：
+/dev/sdb2             swap                swap    defaults        0 0
+
+3、恢复被误删除的分区(也可以参考testdisk命令)。由于parted直接写磁盘，因此一旦不小心删除了某一分区，建议立即用rescue恢复。下面通过事例来理解恢复过程。
+\# parted /dev/sdb mkpart ext3 504000 514000 —-创建10G分区/dev/sdb3
+\# mkfs.ext3 /dev/sdb3  —将/dev/sdb3格式化成ext3文件系统。
+\# parted /dev/sdb rm 3 —-删除/dev/sdb3
+\# parted /dev/sdb rescue 504000 514000    —依照屏幕提示，输入yes即可恢复被误删除分区
+
+
