@@ -66,3 +66,24 @@ v | 按v后移动光标会选中指定字符, 然后可以实现复制 , 粘贴�
 
 
 
+
+
+
+
+
+## 扩展
+vim的特殊用法 http://www.apelearn.com/bbs/thread-9334-1-1.html 
+
+vim常用快捷键总结 http://www.apelearn.com/bbs/thread-407-1-1.html 
+
+vim快速删除一段字符 http://www.apelearn.com/bbs/thread-842-1-1.html 
+
+vim乱码 http://www.apelearn.com/bbs/thread-6753-1-1.html 
+
+小键盘问题 http://www.apelearn.com/bbs/thread-7215-1-1.html 
+
+vim加密  http://www.apelearn.com/bbs/thread-7750-1-1.html 
+
+
+
+
